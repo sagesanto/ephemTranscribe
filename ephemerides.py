@@ -23,6 +23,6 @@ with open('ephems.txt') as f:
                 break
             w.write(l) #put this after line 14 if the file needs to end with the whitespace
 for name in filenames:
-    os.system("awk -f MPC_scheduler_script_1.awk" + name + "_ephem.txt > " + name + "_scheduler.txt")
+    os.system("awk -f MPC_scheduler_script_1.awk ephemeridesDir/" + name + "_ephem.txt > /ephemeridesDir" + name + "_scheduler.txt")
 # probably wont be able to find the files because they're in the ephemeridesDir directory
 #  -> needs to be fixed when I can test on a linux vbox
