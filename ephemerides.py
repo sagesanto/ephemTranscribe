@@ -9,12 +9,12 @@ if len(sys.argv) == 1:
     raise Exception("Program expects the number of objects as an argument")
 numObjects = sys.argv[1]
 filenames = []
-os.mkdir("ephemerides")
+os.mkdir("ephemeridesDir")
 with open('ephems.txt') as f:
     for i in range(int(numObjects)):
         l = f.readline()
-        filenames.append(l.replace('\n', '') + '.txt')
-        w = open('ephemerides/' + filenames[-1], 'w')
+        filenames.append(l.replace('\n', ''))
+        w = open('ephemeridesDir/' + filenames[-1] + '_ephem.txt', 'w')
         w.write(l)
         while True:
             l = f.readline()
@@ -22,8 +22,7 @@ with open('ephems.txt') as f:
                 w.close()
                 break
             w.write(l) #put this after line 14 if the file needs to end with the whitespace
-#cmd = ""
 for name in filenames:
-    #cmd.append("")
-# os.system(cmd) deal with the command here!!!
-#might be easier to not add on the .txt extension on line 16?
+    os.system("awk -f MPC_scheduler_script_1.awk" + name + "_ephem.txt > " + name + "_scheduler.txt")
+# probably wont be able to find the files because they're in the ephemeridesDir directory
+#  -> needs to be fixed when I can test on a linux vbox
