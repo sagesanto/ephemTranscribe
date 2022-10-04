@@ -1,9 +1,6 @@
 # Sage Santomenna, Pomona, 2022
-# program assumes n arguments, all of which are the names of objects, exactly as they appear on the ephemerides webpage, in the exact order they appear on the ephemerides webpage
-# assume downloaded text file of a ephemerides page titled "ephems.txt" in root directory
+# program assumes copy-pasted text file of an ephemerides page titled "ephems.txt" in root directory
 
-# separate out by name: identify the relevant text for each and write each to own text file in subfolder
-# then invoke awk command to transform each to telescope readable format in subfolder
 import sys
 import os
 import fileinput
@@ -21,12 +18,13 @@ def replace(path):
 
 
 if len(sys.argv) == 1:
-    raise Exception("Program expects the number of objects as an argument")
+    raise Exception("Program expects the number of objects as its only argument")
 numObjects = sys.argv[1]
 filenames = []
 os.mkdir("ephemeridesDir")
 with open('ephems.txt') as f:
     for i in range(int(numObjects)):
+        l = f.readline()
         l = f.readline()
         filenames.append(l.replace('\n', ''))
         print("found name " + l.replace('\n', ''))
@@ -40,5 +38,5 @@ with open('ephems.txt') as f:
             w.write(l)  # put this after line 14 if the file needs to end with the whitespace
 for name in filenames:
     replace('ephemeridesDir/' + name + "_ephem.txt")
-    os.system(
-        "awk -f MPC_scheduler_script_1.awk ephemeridesDir/" + name + "_ephem.txt > /ephemeridesDir" + name + "_scheduler.txt")
+    os.system("awk -f MPC_scheduler_script_1.awk ephemeridesDir/" + name + "_ephem.txt > ephemeridesDir/" + name + "_scheduler.txt")
+
